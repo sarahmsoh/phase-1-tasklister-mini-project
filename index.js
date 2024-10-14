@@ -1,82 +1,72 @@
-// The code below ensures that students who are using CodeGrade will get credit
-// for the code-along in Canvas; you can disregard it.
-
-require("./helpers.js");
-
-describe("", () => {
-  describe("", () => {
-    it("Test passing", () => {
-      return true;
-    });
-  });
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("create-task-form");
-  const taskList = document.getElementById("tasks");
+   const form = document.getElementById("create-task-form");
+   const taskList = document.getElementById("tasks");
 
-  // Listen for the submit event on the form
-  form.addEventListener("submit", (event) => {
-    // Prevent the default form submission behavior
-    event.preventDefault();
+   form.addEventListener("submit", (event) => {
 
-    // Get the task description and priority
-    const taskDescription = document.getElementById("new-task-description").value;
-    const taskPriority = document.getElementById("task-priority").value;
+   event.preventDefault();
 
-    // Create a new list item for the task
-    const newTaskItem = document.createElement("li");
-    newTaskItem.textContent = taskDescription;
 
-    // Set text color based on priority
-    if (taskPriority === "high") {
-      newTaskItem.style.color = "red";
-    } else if (taskPriority === "medium") {
-      newTaskItem.style.color = "yellow";
-    } else {
-      newTaskItem.style.color = "green";
-    }
+   const taskDescription = document.getElementById("new-task-description").value;
+   const taskUser = document.getElementById("task-user").value;
+   const taskDuration = document.getElementById("task-duration").value;
+   const taskDueDate = document.getElementById("task-due-date").value;
+   const taskPriority = document.getElementById("task-priority").value;
 
-    // Create a delete button
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-      taskList.removeChild(newTaskItem);
-    });
+   const newTaskItem = document.createElement("li");
+   newTaskItem.innerHTML = `<strong>${taskDescription}</strong> - User: ${taskUser}, Duration: ${taskDuration} hours, Due: ${taskDueDate}`;
 
-    // Create an edit button
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.addEventListener("click", () => {
-      const newDescription = prompt("Edit your task:", taskDescription);
-      if (newDescription) {
-        newTaskItem.firstChild.textContent = newDescription; // Update the task description
-      }
-    });
+   // Assign priority color
+   if (taskPriority === "high") {
+   newTaskItem.style.color = "red";
+   } else if (taskPriority === "medium") {
+   newTaskItem.style.color = "yellow";
+   } else {
+   newTaskItem.style.color = "green";
+   }
 
-    // Append buttons to the task item
-    newTaskItem.appendChild(editButton);
-    newTaskItem.appendChild(deleteButton);
+   // Create edit and delete buttons
+ const deleteButton = document.createElement("button");
+   deleteButton.textContent = "Delete";
+   deleteButton.addEventListener("click", () => {
+   taskList.removeChild(newTaskItem);
+ });
 
-    // Append the new task to the task list
-    taskList.appendChild(newTaskItem);
 
-    // Clear the input fields
-    form.reset();
-  });
+
+   const editButton = document.createElement("button");
+   editButton.textContent = "Edit";
+   editButton.addEventListener("click", () => {
+   const newDescription = prompt("Edit your task:", taskDescription);
+
+
+  if (newDescription) {
+   newTaskItem.firstChild.textContent = newDescription;
+   }
+   });
+
+
+ newTaskItem.appendChild(editButton);
+   newTaskItem.appendChild(deleteButton);
+
+
+   taskList.appendChild(newTaskItem);
+
+
+  form.reset();
+   });
 
   // Sorting functionality
   document.getElementById("sort-tasks").addEventListener("click", () => {
-    const tasksArray = Array.from(taskList.children);
+  const tasksArray = Array.from(taskList.children);
 
-    tasksArray.sort((a, b) => {
-      const priorityA = a.style.color === "red" ? 3 : a.style.color === "yellow" ? 2 : 1;
-      const priorityB = b.style.color === "red" ? 3 : b.style.color === "yellow" ? 2 : 1;
-      return priorityA - priorityB;
-    });
+   tasksArray.sort((a, b) => {
+   const priorityA = a.style.color === "red" ? 3 : a.style.color === "yellow" ? 2 : 1;
+   const priorityB = b.style.color === "red" ? 3 : b.style.color === "yellow" ? 2 : 1;
+   return priorityA - priorityB;
+   });
 
-    // Clear the task list and re-append sorted tasks
-    taskList.innerHTML = "";
-    tasksArray.forEach(task => taskList.appendChild(task));
+  taskList.innerHTML = "";
+  tasksArray.forEach(task => taskList.appendChild(task));
+   });
   });
-});
